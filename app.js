@@ -20,21 +20,24 @@
 // "timestamp": "2012-07-04T18:14:08Z"} }
 //
 
-var hostName = "semaphorewatcherserver.herokuapp.com";
+var userAgentValid = process.env.SEMAPHORE_USER_AGENT;
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var bodyParser = require('body-parser');
 
 server.listen(process.env.PORT || 5555);
 
+app.use(bodyParser.json());
+
 app.get('/', function (req, res) {
-  res.send("Get out here! https://github.com/djalmaaraujo/semaphore-watcher-server (" + (req.get('host') == hostName).toString() + ")");
+  res.send("Get out here! https://github.com/djalmaaraujo/semaphore-watcher-server");
 });
 
-app.post('/', function (req, res) {
-  var b = req.body;
+app.post('/hook', function (req, res) {
+  var b = new Object(req.body);
   if (!b.hasOwnProperty('event') && (b.event !== "build")) return false;
-  if (req.get('host') !== hostName) return false;
+  if (req.headers['user-agent'] !== userAgentValid) return false;
 
   io.sockets.emit("build", {
     project: b.project_hash_id
