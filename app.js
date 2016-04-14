@@ -46,13 +46,7 @@ app.post('/hook', function (req, res) {
     , build_number: b.build_number
     , started_at: b.started_at
     , finished_at: b.finished_at
-    , message: b.message + ' - ' + b.author_name
+    , message: b.commit.message + ' - ' + b.commit.author_name
     , build_url: b.build_url
-  });
-});
-
-io.on('connection', function (socket) {
-  socket.on('my other event', function (data) {
-    console.log(data);
   });
 });
