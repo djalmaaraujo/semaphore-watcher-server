@@ -2,7 +2,7 @@ var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-server.listen(80);
+server.listen(process.env.PORT || 5555);
 
 app.get('/', function (req, res) {
   res.send(200);

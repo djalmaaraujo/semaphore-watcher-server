@@ -2,7 +2,8 @@
   "name": "semaphore-watcher-server",
   "version": "0.0.1",
   "description": "Semaphore Watcher Socket Server",
-  "main": "index.js",
+  "main": "app.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
